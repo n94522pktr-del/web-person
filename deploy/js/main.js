@@ -227,36 +227,179 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.style.opacity = '1';
   }, 100);
 
-  // 导航链接激活状态
-  const sections = document.querySelectorAll('section[id]');
-  
-  window.addEventListener('scroll', function() {
-    const scrollPos = window.scrollY + 100;
-    
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop;
-      const sectionHeight = section.offsetHeight;
-      const sectionId = section.getAttribute('id');
-      
-      if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-        navLinks.forEach(link => {
-          link.classList.remove('active');
-          if (link.getAttribute('href') === '#' + sectionId) {
-            link.classList.add('active');
-          }
-        });
-      }
-    });
+  // 深色/浅色模式切换
+  const themeToggle = document.getElementById('theme-toggle');
+
+  // 检查本地存储的主题偏好
+  const currentTheme = localStorage.getItem('theme');
+  if (currentTheme === 'dark') {
+    document.documentElement.classList.add('dark');
+  }
+
+  themeToggle.addEventListener('click', function() {
+    document.documentElement.classList.toggle('dark');
+
+    // 保存主题偏好到本地存储
+    if (document.documentElement.classList.contains('dark')) {
+      localStorage.setItem('theme', 'dark');
+    } else {
+      localStorage.setItem('theme', 'light');
+    }
   });
 
-  // 技能标签点击效果
-  skillTags.forEach(tag => {
-    tag.addEventListener('click', function() {
-      // 可以在这里添加点击后的效果，比如显示技能详情
-      this.style.transform = 'scale(0.95)';
-      setTimeout(() => {
-        this.style.transform = 'scale(1)';
-      }, 100);
-    });
+  // 打字机效果
+  const typewriterElement = document.getElementById('typewriter');
+  const text = '王影臣';
+  let charIndex = 0;
+  let isDeleting = false;
+  let typingSpeed = 200;
+
+  function typeWriter() {
+    if (!typewriterElement) return;
+
+    if (!isDeleting) {
+      typewriterElement.textContent = text.substring(0, charIndex + 1);
+      charIndex++;
+
+      if (charIndex === text.length) {
+        isDeleting = true;
+        typingSpeed = 1000; // 暂停一段时间
+      }
+    } else {
+      typewriterElement.textContent = text.substring(0, charIndex - 1);
+      charIndex--;
+
+      if (charIndex === 0) {
+        isDeleting = false;
+        typingSpeed = 500; // 重新开始前的暂停
+      }
+    }
+
+    setTimeout(typeWriter, typingSpeed);
+  }
+
+  // 页面加载1秒后开始打字机效果
+  setTimeout(typeWriter, 1000);
+
+  // 项目详情模态框功能
+  const projectDetails = {
+    project1: {
+      title: '基于Python的学生信息管理系统',
+      content: `
+        <div class="space-y-6">
+          <div>
+            <h3 class="font-semibold text-lg mb-2 flex items-center">
+              <i class="fas fa-project-diagram mr-2 text-blue-500"></i>
+              项目概述
+            </h3>
+            <p class="text-gray-600 dark:text-gray-300">
+              为学校辅导员开发的学生信息管理工具，采用前后端分离架构，使用Flask框架构建RESTful API，MySQL数据库存储数据，Bootstrap实现响应式前端界面。
+            </p>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-2 flex items-center">
+              <i class="fas fa-code mr-2 text-green-500"></i>
+              技术栈
+            </h3>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">Python</span>
+              <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm">Flask</span>
+              <span class="px-3 py-1 bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200 rounded-full text-sm">MySQL</span>
+              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm">jieba</span>
+              <span class="px-3 py-1 bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200 rounded-full text-sm">Bootstrap</span>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-2 flex items-center">
+              <i class="fas fa-trophy mr-2 text-yellow-500"></i>
+              项目亮点
+            </h3>
+            <ul class="space-y-2">
+              <li class="flex items-start">
+                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                <span class="text-gray-600 dark:text-gray-300">引入jieba分词词库实现智能检索，检索准确率提升40%</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                <span class="text-gray-600 dark:text-gray-300">支持Excel批量导入导出功能</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                <span class="text-gray-600 dark:text-gray-300">已在班级内部投入使用，管理300+学生信息</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                <span class="text-gray-600 dark:text-gray-300">辅导员工作效率提升50%</span>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-2 flex items-center">
+              <i class="fas fa-chart-line mr-2 text-purple-500"></i>
+              性能指标
+            </h3>
+            <div class="grid grid-cols-3 gap-4">
+              <div class="text-center p-4 bg-blue-50 dark:bg-blue-900 rounded-lg">
+                <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">300+</div>
+                <div class="text-sm text-gray-600 dark:text-gray-300">学生信息</div>
+              </div>
+              <div class="text-center p-4 bg-green-50 dark:bg-green-900 rounded-lg">
+                <div class="text-2xl font-bold text-green-600 dark:text-green-400">50%</div>
+                <div class="text-sm text-gray-600 dark:text-gray-300">效率提升</div>
+              </div>
+              <div class="text-center p-4 bg-purple-50 dark:bg-purple-900 rounded-lg">
+                <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">40%</div>
+                <div class="text-sm text-gray-600 dark:text-gray-300">检索准确率</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `
+    }
+  };
+
+  // 打开模态框
+  window.openProjectModal = function(projectId) {
+    const modal = document.getElementById('projectModal');
+    const title = document.getElementById('modalTitle');
+    const content = document.getElementById('modalContent');
+
+    const project = projectDetails[projectId];
+    if (project) {
+      title.textContent = project.title;
+      content.innerHTML = project.content;
+      modal.style.display = 'block';
+      document.body.style.overflow = 'hidden'; // 禁止背景滚动
+    }
+  };
+
+  // 关闭模态框
+  window.closeProjectModal = function() {
+    const modal = document.getElementById('projectModal');
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto'; // 恢复背景滚动
+  };
+
+  // 点击模态框外部关闭
+  window.onclick = function(event) {
+    const modal = document.getElementById('projectModal');
+    if (event.target === modal) {
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+  };
+
+  // ESC键关闭模态框
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+      const modal = document.getElementById('projectModal');
+      if (modal.style.display === 'block') {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    }
   });
 });

@@ -3,17 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>王影臣的个人简历</title>
+  <title>王影臣 - 后端开发工程师 | 个人简历</title>
+  
+  <!-- SEO优化 -->
+  <meta name="description" content="王影臣的个人简历网站，后端开发工程师 | 前端开发工程师，熟练掌握Java、Python、SpringBoot等主流技术栈">
+  <meta name="keywords" content="王影臣, 个人简历, 后端开发, 前端开发, Java开发, Python开发, SpringBoot, 合肥师范学院">
+  <meta name="author" content="王影臣">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph / 社交媒体分享标签 -->
+  <meta property="og:title" content="王影臣 - 后端开发工程师 | 个人简历">
+  <meta property="og:description" content="后端开发工程师 | 前端开发工程师，熟练掌握Java、Python、SpringBoot等主流技术栈">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_CN">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="王影臣 - 后端开发工程师 | 个人简历">
+  <meta name="twitter:description" content="后端开发工程师 | 前端开发工程师">
+  
   <script src="https://cdn.tailwindcss.com/3.4.1"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <!-- 顶部导航栏 -->
-  <nav id="navbar" class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
+  <nav id="navbar" class="fixed top-0 left-0 right-0 bg-white shadow-md z-50 dark:bg-gray-800">
     <div class="w-full px-6 py-4">
       <div class="flex flex-col items-center justify-center text-center" style="width: 100%;">
-        <div class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-4" style="text-align: center;">王影臣的简历</div>
+        <div class="flex items-center gap-4 mb-4">
+          <div class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent" style="text-align: center;">王影臣的简历</div>
+          <!-- 深色/浅色模式切换按钮 -->
+          <button id="theme-toggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+            <i class="fas fa-moon text-gray-600 dark:hidden"></i>
+            <i class="fas fa-sun text-yellow-400 hidden dark:block"></i>
+          </button>
+        </div>
         <ul class="flex space-x-8 justify-center">
           <li><a href="#home" class="nav-link">首页</a></li>
           <li><a href="#about" class="nav-link">工作经历</a></li>
@@ -35,10 +60,11 @@
       <div class="flex items-center gap-12">
         <div class="flex-shrink-0 scroll-animate">
           <div class="w-48 h-48 rounded-full overflow-hidden border-4 border-white shadow-2xl animate-float">
+            <img src="images/thispersondoesnotexist.com.jpeg" alt="个人头像" class="w-full h-full object-cover">
           </div>
         </div>
         <div class="flex-1">
-          <h1 class="text-5xl font-bold text-gray-800 mb-4 scroll-animate">你好，我是 <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">王影臣</span></h1>
+          <h1 class="text-5xl font-bold text-gray-800 mb-4 scroll-animate dark:text-white">你好，我是 <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600" id="typewriter"></span></h1>
           <h2 class="text-2xl text-blue-600 mb-4 scroll-animate">后端开发工程师 | 前端开发工程师</h2>
           <div class="flex flex-wrap gap-4 mb-6 text-gray-600 scroll-animate">
             <span class="inline-flex items-center px-4 py-2 bg-white rounded-full shadow-sm"><i class="fas fa-calendar-alt mr-2 text-blue-500"></i>24岁 | 男 | 应届生</span>
@@ -270,11 +296,23 @@
               <span class="tech-tag">jieba</span>
               <span class="tech-tag"><i class="fab fa-bootstrap mr-1"></i>Bootstrap</span>
             </div>
+            <button class="mt-4 px-6 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:shadow-lg transition-all hover:-translate-y-1" onclick="openProjectModal('project1')">
+              查看详情
+            </button>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- 项目详情模态框 -->
+  <div id="projectModal" class="modal">
+    <div class="modal-content dark:bg-gray-800">
+      <span class="close" onclick="closeProjectModal()">&times;</span>
+      <h2 id="modalTitle" class="text-2xl font-bold mb-4 text-gray-800 dark:text-white"></h2>
+      <div id="modalContent" class="text-gray-600 dark:text-gray-300"></div>
+    </div>
+  </div>
 
   <!-- 页脚联系方式区 -->
   <footer id="contact" class="bg-gradient-to-br from-gray-800 to-gray-900 text-white py-16">
@@ -302,9 +340,6 @@
             <i class="fab fa-weixin text-2xl"></i>
           </div>
           <span>同手机号</span>
-        </a>
-          <div class="w-16 h-16 bg-gradient-to-br from-gray-600 to-gray-700 rounded-full flex items-center justify-center mb-3 shadow-lg">
-          </div>
         </a>
       </div>
       <div class="mt-8 pt-8 border-t border-gray-700 text-center">
